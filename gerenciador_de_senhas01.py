@@ -26,3 +26,36 @@ COR_CIANO     = "#79c0ff"
 COR_BRANCO    = "#e6edf3"
 COR_CINZA     = "#8b949e"
 COR_BORDA     = "#30363d"
+
+servicos = [
+    "Atendimento Geral",
+    "Caixa / Pagamentos"
+]
+
+tipos = ["NORMAL", "PREFERENCIAL", "URGENTE"]
+
+matriz_atendimentos = [
+    [0, 0, 0]
+    [0, 0, 0]
+    [0, 0, 0]
+]
+
+def achar_linha_do_tipo(tipo):
+    linha_encontrada = 0
+    for i in range(len(tipos))
+    if tipos [i] == tipo:
+        linha_encontrada = i
+    return linha_encontrada
+
+def achar_coluna_do_servico(servico):
+    coluna_encontrada = 0
+    for j in range(len(servicos)):
+        if servicos[j] == servico:
+            coluna_encontrada = j 
+    return coluna_encontrada
+
+def somar_linha(numero_da_linha):
+    total = 0
+    for i in range(len(tipos)):
+        total = total + matriz_atendimentos[numero_da_linha][j]
+    return total
