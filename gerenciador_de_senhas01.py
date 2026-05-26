@@ -59,3 +59,15 @@ def somar_linha(numero_da_linha):
     for i in range(len(tipos)):
         total = total + matriz_atendimentos[numero_da_linha][j]
     return total
+
+def soma_coluna(numero_da_coluna):
+    total = 0
+    for i in range(len(tipos)):
+        total = total + matriz_atendimentos[i][numero_da_coluna]
+    return total
+
+def registrar_na_matriz(tipo, servico):
+    linha = achar_linha_do_tipo(tipo)
+    coluna = achar_coluna_do_servico(servico)
+    matriz_atendimento[linha][coluna] = matriz_atendimentos[linha][coluna] + 1
+
