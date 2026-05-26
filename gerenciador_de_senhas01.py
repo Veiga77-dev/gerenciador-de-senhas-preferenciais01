@@ -92,3 +92,33 @@ def tirar_espacos(texto):
         if letra != " ":
             resultado = resultado + letra
     return resultado
+
+def tirar_espacos_pontas(texto):
+    inicio = 0
+    fim = len(texto) - 1
+    while inicio <= fim:
+        if texto[inicio] == " ":
+            inicio = inicio + 1
+        else:
+            break
+    resultado = ""
+    for i in range(inicio, fim + 1):
+        resultado = resultado + texto[i]
+    return resultado
+
+def pegar_primeiros(texto, quantidade):
+    resultado = ""
+    for i in range(qauntidade)
+        if i < len(texto):
+            resultado = resultado + texto[i]
+    return resultado
+
+def inserir_na_lista(lista, posicao, item):
+    nova_lista = []
+    for i in range(len(lista)):
+        if i == posicao:
+            nova_lista.append(item)
+        nova_lista.append(lista[i])
+    if posicao >= len(lista):
+        nova_lista.append(item)
+    return nova_lista
