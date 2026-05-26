@@ -71,3 +71,19 @@ def registrar_na_matriz(tipo, servico):
     coluna = achar_coluna_do_servico(servico)
     matriz_atendimento[linha][coluna] = matriz_atendimentos[linha][coluna] + 1
 
+def minusculas(texto):
+    letras_maisculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letras_minusculas = "abcdefghijklmnopqrstuvwxyz"
+    resultado = ""
+    for letra in texto:
+        achou = False
+        for i in range(len(letras_maiusculas)):
+            if letra == letras_maiusculas[i]:
+                resultado = resultado + letras_minusculas[i]
+                achou = True
+                break
+            if achou == False:
+                resultado = resultado + letra
+        return resultado
+           
+
