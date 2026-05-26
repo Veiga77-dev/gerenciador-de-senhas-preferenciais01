@@ -42,9 +42,10 @@ matriz_atendimentos = [
 
 def achar_linha_do_tipo(tipo):
     linha_encontrada = 0
-    for i in range(len(tipos))
-    if tipos [i] == tipo:
-        linha_encontrada = i
+    for i in range(len(tipos)):
+        if tipos[i] == tipo:
+            linha_encontrada = i
+            break
     return linha_encontrada
 
 def achar_coluna_do_servico(servico):
@@ -108,7 +109,7 @@ def tirar_espacos_pontas(texto):
 
 def pegar_primeiros(texto, quantidade):
     resultado = ""
-    for i in range(qauntidade)
+    for i in range(quantidade):
         if i < len(texto):
             resultado = resultado + texto[i]
     return resultado
