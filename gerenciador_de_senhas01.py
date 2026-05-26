@@ -86,4 +86,9 @@ def minusculas(texto):
                 resultado = resultado + letra
         return resultado
            
-
+def tirar_espacos(texto):
+    resultado = ""
+    for letra in texto:
+        if letra != " ":
+            resultado = resultado + letra
+    return resultado
