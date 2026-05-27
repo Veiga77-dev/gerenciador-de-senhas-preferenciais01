@@ -123,3 +123,57 @@ def inserir_na_lista(lista, posicao, item):
     if posicao >= len(lista):
         nova_lista.append(item)
     return nova_lista
+
+def remover_primeiro(lista):
+    nova_lista = []
+    for i in range(len(lista)):
+        if i != 0:
+            nova_lista.append(lista[i])
+    return nova_lista
+
+def remover_ultimo(lista):
+    nova_lista = []
+    for i in range(len(lista) -1):
+        nova_lista.append(lista[i])
+    return nova_lista
+
+def par_ou_impar(numero):
+    n = numero 
+    while n >= 2:
+        n = n - 2
+    if n == 0:
+        return 0
+    else:
+        return 1
+    
+def fazer_codigo(tipo, nome):
+    global cont_preferencial, cont_urgente, cont_normal
+
+    nome_limpo = minusculas(nome)
+    nome_limpo = tirar_espacos(nome_limpo)
+
+    if len(nome_limpo) == 0:
+        nome_limpo = 'user'
+
+    if len(nome_limpo) > 8:
+        nome_limpo = pegar_primeiros(nome_limpo, 8)
+    
+    if tipo == 'PREFERENCIAL':
+        cont_preferencial += 1
+        numero = cont_preferencial
+    elif tipo == 'URGENTE':
+        cont_urgente += 1
+        numero = cont_urgente
+    else:
+        cont_normal += 1
+        numero = cont_normal
+    
+    if numero < 10:
+        numero_texto = '00' + str(numero)
+    elif numero < 100:
+        numero_texto = '0' + str(numero)
+    else:
+        numero_texto = str(numero)
+    
+    codigo = nome_limpo + numero_texto
+    return codigo
