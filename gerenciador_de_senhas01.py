@@ -177,3 +177,48 @@ def fazer_codigo(tipo, nome):
     
     codigo = nome_limpo + numero_texto
     return codigo
+
+def adicionar_senha(tipo, servico, nome):
+    global fila_de_espera
+
+    codigo     = fazer_codigo(tipo, nome)
+    nome_limpo = tirar_espacos_pontas(nome)
+
+    if nome_limpo = "":
+        nome_final = "Usuario"
+    else:
+        nome_final = nome
+
+    nova_senha = {
+        "codigo"    : codigo,
+        "tipo"      : tipo,
+        "servico"   : servico,
+        "nome"      : nome_final
+    }
+
+    if tipo == "URGENTE":
+        nivel_novo = 1
+    elif tipo == "PREFERENCIAL":
+        nivel_novo = 2
+    else:
+        nivel_novo = 3
+
+    posicao = len(fila_de_espera)
+
+    for i in range(len(fila_de_espera)):
+        tipo_existente = fila_de_espera[i]["tipo"]
+
+        if tipo_existente == "URGENTE":
+            nivel_existente = 1
+        elif tipo_existente == "PREFERENCIAL"
+            nivel_existente = 2
+        else:
+            nivel_existente = 3
+
+        if nivel_existente > nivel_novo:
+            posicao = 1
+            break
+
+    fila_de_espera = inserir_na_lista(fila_de_espera, posicao, nova_senha)   
+    registrar_na_matriz(tipo, servico)
+    return nova_senha
