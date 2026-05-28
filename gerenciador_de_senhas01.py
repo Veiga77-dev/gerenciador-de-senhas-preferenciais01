@@ -35,8 +35,8 @@ servicos = [
 tipos = ["NORMAL", "PREFERENCIAL", "URGENTE"]
 
 matriz_atendimentos = [
-    [0, 0, 0]
-    [0, 0, 0]
+    [0, 0, 0],
+    [0, 0, 0],
     [0, 0, 0]
 ]
 
@@ -184,7 +184,7 @@ def adicionar_senha(tipo, servico, nome):
     codigo     = fazer_codigo(tipo, nome)
     nome_limpo = tirar_espacos_pontas(nome)
 
-    if nome_limpo = "":
+    if nome_limpo == "":
         nome_final = "Usuario"
     else:
         nome_final = nome
@@ -210,7 +210,7 @@ def adicionar_senha(tipo, servico, nome):
 
         if tipo_existente == "URGENTE":
             nivel_existente = 1
-        elif tipo_existente == "PREFERENCIAL"
+        elif tipo_existente == "PREFERENCIAL":
             nivel_existente = 2
         else:
             nivel_existente = 3
