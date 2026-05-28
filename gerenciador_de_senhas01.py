@@ -222,3 +222,38 @@ def adicionar_senha(tipo, servico, nome):
     fila_de_espera = inserir_na_lista(fila_de_espera, posicao, nova_senha)   
     registrar_na_matriz(tipo, servico)
     return nova_senha
+
+def chamar_proximo():
+    global fila_de_espera, historico, senha_atual, total_chamados
+
+    if len(fila_de_espera) == 0:
+        return None
+    
+    proximo = fila_de_espera[o]
+    fila_de_espera = remover_primeiro(fila_de_espera)
+
+    senha_atual = proximo
+    total_chamados += 1
+
+    historico = inserir_na_lista(historico, 0, proximo)
+
+    if len(historico) > 20:
+        historico = remover_ultimo(historico)
+    
+    return proximo
+
+def cor_do_tipo(tipo):
+    if tipo == 'URGENTE':
+        return COR_VERMELHO
+    elif tipo == 'PREFERENCIAL':
+        return COR_AMARELO
+    else:
+        return COR_AZUL
+
+def fundo_do_tipo(tipo):
+    if tipo == 'URGENTE':
+        return '#2d1117'
+    elif tipo == 'PREFERENCIAL'
+        return '#2d2000'
+    else:
+        return '#1c2333'
