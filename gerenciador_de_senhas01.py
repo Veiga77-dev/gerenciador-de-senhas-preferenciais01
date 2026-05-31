@@ -25,7 +25,7 @@ COR_VERMELHO  = "#f85149"
 COR_CIANO     = "#79c0ff"
 COR_BRANCO    = "#e6edf3"
 COR_CINZA     = "#8b949e"
-COR_BORDA     = "#30363d"
+COR_BORDA     = "#0b78f5"
 
 servicos = [
     "Atendimento Geral",
@@ -58,7 +58,7 @@ def achar_coluna_do_servico(servico):
 def somar_linha(numero_da_linha):
     total = 0
     for i in range(len(tipos)):
-        total = total + matriz_atendimentos[numero_da_linha][j]
+        total = total + matriz_atendimentos[numero_da_linha][i]
     return total
 
 def soma_coluna(numero_da_coluna):
@@ -70,10 +70,10 @@ def soma_coluna(numero_da_coluna):
 def registrar_na_matriz(tipo, servico):
     linha = achar_linha_do_tipo(tipo)
     coluna = achar_coluna_do_servico(servico)
-    matriz_atendimento[linha][coluna] = matriz_atendimentos[linha][coluna] + 1
+    matriz_atendimentos[linha][coluna] = matriz_atendimentos[linha][coluna] + 1
 
 def minusculas(texto):
-    letras_maisculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letras_maiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     letras_minusculas = "abcdefghijklmnopqrstuvwxyz"
     resultado = ""
     for letra in texto:
@@ -83,9 +83,9 @@ def minusculas(texto):
                 resultado = resultado + letras_minusculas[i]
                 achou = True
                 break
-            if achou == False:
-                resultado = resultado + letra
-        return resultado
+        if achou == False:
+            resultado = resultado + letra
+    return resultado
            
 def tirar_espacos(texto):
     resultado = ""
@@ -216,7 +216,7 @@ def adicionar_senha(tipo, servico, nome):
             nivel_existente = 3
 
         if nivel_existente > nivel_novo:
-            posicao = 1
+            posicao = i
             break
 
     fila_de_espera = inserir_na_lista(fila_de_espera, posicao, nova_senha)   
@@ -229,7 +229,7 @@ def chamar_proximo():
     if len(fila_de_espera) == 0:
         return None
     
-    proximo = fila_de_espera[o]
+    proximo = fila_de_espera[0]
     fila_de_espera = remover_primeiro(fila_de_espera)
 
     senha_atual = proximo
@@ -246,14 +246,92 @@ def cor_do_tipo(tipo):
     if tipo == 'URGENTE':
         return COR_VERMELHO
     elif tipo == 'PREFERENCIAL':
-        return COR_AMARELO
+        return COR_VERDE
     else:
         return COR_AZUL
 
 def fundo_do_tipo(tipo):
     if tipo == 'URGENTE':
         return '#2d1117'
-    elif tipo == 'PREFERENCIAL'
+    elif tipo == 'PREFERENCIAL':
         return '#2d2000'
     else:
         return '#1c2333'
+
+# Janela Principal
+janela = ctk.CTk()
+janela.title("Gerenciador de Senhas")
+janela.geometry("1920x1080")
+janela.configure(fg_color=COR_FUNDO)
+
+# Menu de Chamadas
+menu_chamadas = ctk.CTkTabview(janela, width=540, height=422, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
+menu_chamadas.place(x=120, y=60)
+menu_chamadas.add("Menu de Chamadas")
+menu_chamadas.tab("Menu de Chamadas").columnconfigure(0, weight=1)
+menu_chamadas.add("Histórico")
+menu_chamadas.tab("Histórico").columnconfigure(0, weight=1)
+aba_menu = menu_chamadas.tab("Menu de Chamadas")
+
+
+# Tela de Histórico
+historico_tela = ctk.CTkTabview(janela, width=540, height=422, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
+historico_tela.place(x=120, y=540)
+historico_tela.add("Lista de Espera")
+historico_tela.add("Histórico")
+historico_tela.tab("Histórico").columnconfigure(0, weight=1)
+historico_tela.tab("Lista de Espera").columnconfigure(0, weight=1)
+
+# Visualização de Chamadas
+visor = ctk.CTkTabview(janela, width=740, height=598, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
+visor.place(x=864, y=172)
+visor.add("Visor")
+visor.tab("Visor").columnconfigure(0, weight=1)
+
+# Opções do Menu de Chamadas
+
+Opcao_nome = ctk.CTkEntry(aba_menu, width=316, placeholder_text="Digite seu Nome")
+Opcao_nome.pack(pady=20)
+
+opcao_tipos = ctk.CTkOptionMenu(aba_menu, values=tipos, width=316,
+                                #command =
+                                )
+opcao_tipos.pack(pady=20)
+opcao_tipos.set("Nivel de Prioridade")
+
+opcao_servicos = ctk.CTkOptionMenu(aba_menu, values=servicos, width=316,
+                                   #command =
+                                   )
+opcao_servicos.pack(pady=20)
+opcao_servicos.set("Tipo de Serviço")
+
+def enviar():
+    tipo = opcao_tipos.get()
+    servico = opcao_servicos.get()
+    nome = Opcao_nome.get()
+
+    if tipo not in tipos:
+        messagebox.showerror(
+            "Erro",
+            "Selecione um nível de prioridade."
+        )
+        return
+
+    if servico not in servicos:
+        messagebox.showerror(
+            "Erro",
+            "Selecione um tipo de serviço."
+        )
+        return
+
+    adicionar_senha(tipo, servico, nome)
+
+    messagebox.showinfo(
+        "Sucesso",
+        "Aguarde ser chamado!"
+    )
+
+opcao_enviar = ctk.CTkButton(aba_menu, text="Enviar", width=136, command=enviar)
+opcao_enviar.pack(pady=20)
+
+janela.mainloop()
