@@ -266,9 +266,9 @@ def fundo_do_tipo(tipo):
         return '#1c2333'
 
 def simbolo_do_tipo(tipo):
-    if tipo == "URGENTE"
+    if tipo == "URGENTE":
         return " "
-    elif tipo == "PREFENCIAL"
+    elif tipo == "PREFENCIAL":
         return " "
     else: 
         return " "
@@ -289,80 +289,59 @@ num_chamados       = None
 
 janela_principal   = None
 
-# Janela Principal
-janela = ctk.CTk()
-janela.title("Gerenciador de Senhas")
-janela.geometry("1920x1080")
-janela.configure(fg_color=COR_FUNDO)
+def escolher_tipo(tipo):
+    global tipo_escolhido
+    tipo_escolhido = tipo
 
-# Menu de Chamadas
-menu_chamadas = ctk.CTkTabview(janela, width=540, height=422, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
-menu_chamadas.place(x=120, y=60)
-menu_chamadas.add("Menu de Chamadas")
-menu_chamadas.tab("Menu de Chamadas").columnconfigure(0, weight=1)
-menu_chamadas.add("Histórico")
-menu_chamadas.tab("Histórico").columnconfigure(0, weight=1)
-aba_menu = menu_chamadas.tab("Menu de Chamadas")
+    botao_urg.configure(fg_color=COR_CARD2,  hover_color=COR_BORDA, text_color=COR_CINZA)
+    botao_pref.configure(fg_color=COR_CARD2, hover_color=COR_BORDA, text_color=COR_CINZA)
+    botao_norm.configure(fg_color=COR_CARD2, hover_color=COR_BORDA, text_color=COR_CINZA)
+
+    if tipo == "URGENTE":
+        botao_urg.configure(fg_color=COR_VERMELHO, hover_color=COR_VERMELHO, text_color=COR_BRANCO)
+    elif tipo == "PREFERENCIAL":
+        botao_pref.configure(fg_color=COR_AMARELO, hover_color=COR_AMARELO, text_color=COR_BRANCO)
+    else:
+        botao_norm.configure(fg_color=COR_AZUL, hover_color=COR_AZUL, text_color=COR_BRANCO)
 
 
-# Tela de Histórico
-historico_tela = ctk.CTkTabview(janela, width=540, height=422, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
-historico_tela.place(x=120, y=540)
-historico_tela.add("Lista de Espera")
-historico_tela.add("Histórico")
-historico_tela.tab("Histórico").columnconfigure(0, weight=1)
-historico_tela.tab("Lista de Espera").columnconfigure(0, weight=1)
+def clicou_gerar():
+    nome = tirar_espacos_pontas(campo_nome.get())
 
-# Visualização de Chamadas
-visor = ctk.CTkTabview(janela, width=740, height=598, corner_radius=30, border_width=1, border_color=COR_BORDA, fg_color=COR_CINZA)
-visor.place(x=864, y=172)
-visor.add("Visor")
-visor.tab("Visor").columnconfigure(0, weight=1)
-
-# Opções do Menu de Chamadas
-
-Opcao_nome = ctk.CTkEntry(aba_menu, width=316, placeholder_text="Digite seu Nome")
-Opcao_nome.pack(pady=20)
-
-opcao_tipos = ctk.CTkOptionMenu(aba_menu, values=tipos, width=316,
-                                #command =
-                                )
-opcao_tipos.pack(pady=20)
-opcao_tipos.set("Nivel de Prioridade")
-
-opcao_servicos = ctk.CTkOptionMenu(aba_menu, values=servicos, width=316,
-                                   #command =
-                                   )
-opcao_servicos.pack(pady=20)
-opcao_servicos.set("Tipo de Serviço")
-
-def enviar():
-    tipo = opcao_tipos.get()
-    servico = opcao_servicos.get()
-    nome = Opcao_nome.get()
-
-    if tipo not in tipos:
-        messagebox.showerror(
-            "Erro",
-            "Selecione um nível de prioridade."
-        )
+    if nome == "":
+        messagebox.showwarning("Aviso", "Por favor, digite o nome antes de gerar a senha.")
         return
 
-    if servico not in servicos:
-        messagebox.showerror(
-            "Erro",
-            "Selecione um tipo de serviço."
-        )
+    servico = combo_servico.get()
+    adicionar_senha(tipo_escolhido, servico, nome)
+
+    atualizar_fila_na_tela()
+    atualizar_contadores()
+    campo_nome.delete(0, "end")
+
+
+def clicou_chamar():
+    resultado = chamar_proximo()
+
+    if resultado is None:
+        messagebox.showinfo("Aviso", "Nao tem ninguem na fila no momento.")
         return
 
-    adicionar_senha(tipo, servico, nome)
+    mostrar_senha_chamada(resultado)
+    atualizar_fila_na_tela()
+    atualizar_contadores()
+    atualizar_historico()
 
-    messagebox.showinfo(
-        "Sucesso",
-        "Aguarde ser chamado!"
-    )
 
-opcao_enviar = ctk.CTkButton(aba_menu, text="Enviar", width=136, command=enviar)
-opcao_enviar.pack(pady=20)
+def mostrar_senha_chamada(senha):
+    cor     = cor_do_tipo(senha["tipo"])
+    simbolo = simbolo_do_tipo(senha["tipo"])
 
-janela.mainloop()
+    label_senha_atual.configure(text=senha["codigo"], text_color=cor)
+    label_tipo_func.configure(text=simbolo + "  " + senha["tipo"], text_color=cor)
+    label_servico_func.configure(text=senha["servico"], text_color=COR_CINZA)
+
+
+def atualizar_contadores():
+    num_na_fila.configure(text="Fila: " + str(len(fila_de_espera)))
+    num_chamados.configure(text="Chamados: " + str(total_chamados))
