@@ -345,3 +345,55 @@ def mostrar_senha_chamada(senha):
 def atualizar_contadores():
     num_na_fila.configure(text="Fila: " + str(len(fila_de_espera)))
     num_chamados.configure(text="Chamados: " + str(total_chamados))
+
+def atualizar_fila_na_tela():
+    for widget in area_fila.winfo_children():
+        widget.destroy()
+    
+    qtd = len(fila_de_espera)
+
+    if qtd == 1:
+        label_qtd_fila.configure(text="1 pessoa")
+    else:
+        label_qtd_fila.configure(text=str(qtd) + " pessoas")
+    
+    if qtd == 0:
+        ctk.CTkLabel(area_fila, text="Fila vazia", font=("Consolas", 19), text_color=COR_CINZA).pack(pady=30)
+        return
+    
+    for i in range(qtd):
+        senha = fila_de_espera[i]
+        cor = cor_do_tipo(senha["tipo"])
+        fundo = fundo_do_tipo(senha["tipo"])
+        simbolo = simbolo_do_tipo(senha["tipo"])
+
+        if par_ou_impar(i) == 0:
+            cor_bg = COR_CARD2
+        else:
+            cor_bg = COR_CARD
+        
+        linha = ctk.CTkFrame(area_fila, fg_color=cor_bg, corner_radius=6)
+        linha.pack(fill="x", pady=1, padx=2)
+
+        numero_pos = i + 1
+        if numero_pos < 10:
+            texto_pos = "0" + str(numero_pos)
+        else:
+            texto_pos = str(numero_pos)
+        
+        ctk.CTkLabel(linha, text=texto_pos, font=("Consolas", 18, "bold"),
+                     text_color=COR_CINZA, width=24).pack(side="left", padx=(8, 4), pady=6)
+        
+        ctk.CTkLabel(linha, text=simbolo + " " + senha["tipo"], font=("Consolas", 17),
+                     text_color=cor, fg_color=fundo, corner_radius=4).pack(
+                     side="left", padx=4, pady=4, ipadx=6, ipady=2)
+        
+        ctk.CTkLabel(linha, text=senha["codigo"], font=("Consolas", 24, "bold"),
+                     text_color=cor, width=110).pack(side="lefft", padx=6)
+        
+        ctk.CTkLabel(linha, text=senha["servico"], font=("Consolas", 19),
+                     text_color=COR_CINZA).pack(side="right", padx=8)
+    
+        ctk.CTkLabel(linha, text=senha["nome"], font=("Consolas", 19),
+                     text_color=COR_CINZA).pack(side="right", padx=8)
+  
