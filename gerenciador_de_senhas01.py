@@ -25,7 +25,7 @@ COR_VERMELHO  = "#f85149"
 COR_CIANO     = "#79c0ff"
 COR_BRANCO    = "#e6edf3"
 COR_CINZA     = "#8b949e"
-COR_BORDA     = "#0b78f5"
+COR_BORDA     = "#30363d"
 
 servicos = [
     "Atendimento Geral",
@@ -45,7 +45,6 @@ def achar_linha_do_tipo(tipo):
     for i in range(len(tipos)):
         if tipos[i] == tipo:
             linha_encontrada = i
-            break
     return linha_encontrada
 
 def achar_coluna_do_servico(servico):
@@ -57,20 +56,20 @@ def achar_coluna_do_servico(servico):
 
 def somar_linha(numero_da_linha):
     total = 0
-    for i in range(len(tipos)):
-        total = total + matriz_atendimentos[numero_da_linha][i]
+    for j in range(len(tipos)):
+        total += matriz_atendimentos[numero_da_linha][j]
     return total
 
 def soma_coluna(numero_da_coluna):
     total = 0
     for i in range(len(tipos)):
-        total = total + matriz_atendimentos[i][numero_da_coluna]
+        total += matriz_atendimentos[i][numero_da_coluna]
     return total
 
 def registrar_na_matriz(tipo, servico):
     linha = achar_linha_do_tipo(tipo)
     coluna = achar_coluna_do_servico(servico)
-    matriz_atendimentos[linha][coluna] = matriz_atendimentos[linha][coluna] + 1
+    matriz_atendimentos[linha][coluna] += 1
 
 def minusculas(texto):
     letras_maiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -80,38 +79,46 @@ def minusculas(texto):
         achou = False
         for i in range(len(letras_maiusculas)):
             if letra == letras_maiusculas[i]:
-                resultado = resultado + letras_minusculas[i]
+                resultado += letras_minusculas[i]
                 achou = True
                 break
         if achou == False:
-            resultado = resultado + letra
+            resultado += letra
     return resultado
            
 def tirar_espacos(texto):
     resultado = ""
     for letra in texto:
         if letra != " ":
-            resultado = resultado + letra
+            resultado += letra
     return resultado
 
 def tirar_espacos_pontas(texto):
     inicio = 0
     fim = len(texto) - 1
+
     while inicio <= fim:
         if texto[inicio] == " ":
-            inicio = inicio + 1
+            inicio += 1
         else:
             break
+
+    while fim >= inicio:
+        if texto[fim] == " ":
+            fim -= 1
+        else:
+            break
+
     resultado = ""
     for i in range(inicio, fim + 1):
-        resultado = resultado + texto[i]
+        resultado += texto[i]
     return resultado
 
 def pegar_primeiros(texto, quantidade):
-    resultado = ""
+    resultado = " "
     for i in range(quantidade):
         if i < len(texto):
-            resultado = resultado + texto[i]
+            resultado += texto[i]
     return resultado
 
 def inserir_na_lista(lista, posicao, item):
@@ -133,14 +140,14 @@ def remover_primeiro(lista):
 
 def remover_ultimo(lista):
     nova_lista = []
-    for i in range(len(lista) -1):
+    for i in range(len(lista)-1):
         nova_lista.append(lista[i])
     return nova_lista
 
 def par_ou_impar(numero):
     n = numero 
     while n >= 2:
-        n = n - 2
+        n -= 2
     if n == 0:
         return 0
     else:
@@ -181,7 +188,7 @@ def fazer_codigo(tipo, nome):
 def adicionar_senha(tipo, servico, nome):
     global fila_de_espera
 
-    codigo     = fazer_codigo(tipo, nome)
+    codigo = fazer_codigo(tipo, nome)
     nome_limpo = tirar_espacos_pontas(nome)
 
     if nome_limpo == "":
@@ -190,10 +197,10 @@ def adicionar_senha(tipo, servico, nome):
         nome_final = nome
 
     nova_senha = {
-        "codigo"    : codigo,
-        "tipo"      : tipo,
-        "servico"   : servico,
-        "nome"      : nome_final
+        "codigo": codigo,
+        "tipo": tipo,
+        "servico": servico,
+        "nome": nome_final
     }
 
     if tipo == "URGENTE":
@@ -257,6 +264,30 @@ def fundo_do_tipo(tipo):
         return '#2d2000'
     else:
         return '#1c2333'
+
+def simbolo_do_tipo(tipo):
+    if tipo == "URGENTE"
+        return " "
+    elif tipo == "PREFENCIAL"
+        return " "
+    else: 
+        return " "
+
+label_senha_atual = None
+label_tipo_func = None
+label_servico_func = None
+label_qtd_fila     = None
+area_fila          = None
+area_historico     = None
+campo_nome         = None
+combo_servico      = None
+botao_pref         = None
+botao_urg          = None
+botao_norm         = None
+num_na_fila        = None
+num_chamados       = None
+
+janela_principal   = None
 
 # Janela Principal
 janela = ctk.CTk()
