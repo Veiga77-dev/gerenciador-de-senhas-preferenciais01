@@ -398,3 +398,39 @@ def atualizar_fila_na_tela():
         ctk.CTkLabel(linha, text=senha["nome"], font=("Consolas", 19),
                      text_color=COR_CINZA).pack(side="right", padx=8)
   
+
+def atualizar_historico():
+    for widget in area_historico.winfo_children():
+        widget.destroy()
+
+    if len(historico) == 0:
+        ctk.CTkLabel(area_historico, text="Nenhuma senha chamada", font=("Consolas", 16), text_color=COR_CINZA).pack(pady=20)
+        return
+
+    for i in range(len(historico)):
+        senha   = historico[i]
+        cor     = cor_do_tipo(senha["tipo"])
+        simbolo = simbolo_do_tipo(senha["tipo"])
+
+        if par_ou_impar(i) == 0:
+            cor_bg = COR_CARD2
+        else:
+            cor_bg = COR_CARD
+
+        linha = ctk.CTkFrame(area_historico, fg_color=cor_bg, corner_radius=6)
+        linha.pack(fill="x", pady=1, padx=2)
+
+        ctk.CTkLabel(linha, text=senha["codigo"],
+                     font=("Consolas", 17, "bold"), text_color=cor, width=120, anchor="center").pack(side="left", padx=4, pady=5)
+        ctk.CTkLabel(linha, text=pegar_primeiros(senha["nome"], 12),
+                     font=("Consolas", 17), text_color=COR_CINZA, width=110, anchor="center").pack(side="left", padx=4, pady=5)
+        ctk.CTkLabel(linha, text=simbolo + " " + senha["tipo"],
+                     font=("Consolas", 17), text_color=cor, width=120, anchor="center").pack(side="left", padx=4, pady=5)
+        ctk.CTkLabel(linha, text=senha["servico"],
+                     font=("Consolas", 17), text_color=COR_CINZA, anchor="w").pack(side="left", padx=8, pady=5, fill="x", expand=True)
+        
+
+janela_principal = ctk.CTk()
+janela_principal.title("Gerenciador de Senhas")
+janela_principal.geometry("1100x750")
+janela_principal.configure(fg_color=COR_FUNDO)
