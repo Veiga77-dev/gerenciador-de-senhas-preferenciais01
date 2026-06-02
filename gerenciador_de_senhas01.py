@@ -434,3 +434,63 @@ janela_principal = ctk.CTk()
 janela_principal.title("Gerenciador de Senhas")
 janela_principal.geometry("1100x750")
 janela_principal.configure(fg_color=COR_FUNDO)
+
+cabecalho = ctk.CTkFrame(janela_principal, fg_color=COR_TOPO, corner_radius=0)
+cabecalho.pack(fill="x", pady=(0, 10))
+
+ctk.CTkLabel(cabecalho, text="SISTEMA DE SENHAS", font=("Arial", 20, "bold"), text_color=COR_BRANCO).pack(side="left", padx=16, pady=10)
+
+num_na_fila = ctk.CTkLabel(cabecalho, text="Fila: 0", font=("Arial", 14), text_color=COR_CINZA)
+num_na_fila.pack(side="right", padx=8, pady=10)
+
+num_chamados = ctk.CTkLabel(cabecalho, text="Chamados: 0", font=("Arial", 14), text_color=COR_CINZA)
+num_chamados.pack(side="right", padx=8, pady=10)
+
+corpo = ctk.CTkFrame(janela_principal, fg_color=COR_FUNDO, corner_radius=0)
+corpo.pack(fill="both", expand=True, padx=12, pady=(0, 10))
+corpo.columnconfigure(0, weight=1)
+corpo.columnconfigure(1, weight=1)
+corpo.rowconfigure(0, weight=1)
+corpo.rowconfigure(1, weight=1)
+
+card_senha = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
+card_senha.grid(row=0, column=0, sticky="nsew", padx=(0, 6), pady=(0, 6))
+
+ctk.CTkLabel(card_senha, text="Senha Atual", font=("Arial", 14, "bold"), text_color=COR_CINZA).pack(pady=(10, 0))
+
+label_senha_atual = ctk.CTkLabel(card_senha, text="---", font=("Arial", 72, "bold"), text_color=COR_CIANO)
+label_senha_atual.pack()
+
+label_tipo_func = ctk.CTkLabel(card_senha, text="", font=("Arial", 15, "bold"), text_color=COR_CINZA)
+label_tipo_func.pack()
+
+label_servico_func = ctk.CTkLabel(card_senha, text="", font=("Arial", 14), text_color=COR_CINZA)
+label_servico_func.pack(pady=(0, 6))
+
+ctk.CTkButton(
+    card_senha, text="CHAMAR PROXIMA SENHA",
+    font=("Arial", 14, "bold"), fg_color=COR_AZUL,
+    text_color=COR_BRANCO, corner_radius=6, height=38,
+    command=clicou_chamar
+).pack(pady=(0, 10))
+
+card_emitir = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
+card_emitir.grid(row=0, column=1, sticky="nsew", padx=(6, 0), pady=(0, 6))
+
+ctk.CTkLabel(card_emitir, text="Emitir Nova Senha", font=("Arial", 14, "bold"), text_color=COR_CINZA).pack(pady=(10, 4))
+
+frame_nome = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
+frame_nome.pack(fill="x", padx=12, pady=2)
+
+ctk.CTkLabel(frame_nome, text="Nome:", font=("Arial", 14), text_color=COR_CINZA).pack(anchor="w")
+
+campo_nome = ctk.CTkEntry(
+    frame_nome, font=("Arial", 14),
+    fg_color=COR_CARD2, text_color=COR_BRANCO,
+    border_color=COR_BORDA, corner_radius=4,
+    placeholder_text="Digite o nome...", placeholder_text_color=COR_CINZA
+)
+campo_nome.pack(fill="x", pady=4)
+
+frame_prio = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
+frame_prio.pack(fill="x", padx=12, pady=4)
