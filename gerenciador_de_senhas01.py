@@ -494,3 +494,53 @@ campo_nome.pack(fill="x", pady=4)
 
 frame_prio = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
 frame_prio.pack(fill="x", padx=12, pady=4)
+
+ctk.CTkLabel(frame_prio, text="Prioridade:", font=("Arial", 14), text_color=COR_CINZA).pack(anchor="w")
+
+linha_btns = ctk.CTkFrame(frame_prio, fg_color=COR_CARD, corner_radius=0)
+linha_btns.pack(fill="x", pady=4)
+
+botao_urg = ctk.CTkButton(
+    linha_btns, text="URGENTE", font=("Arial", 13, "bold"),
+    corner_radius=4, height=36, command=lambda: escolher_tipo("URGENTE")
+)
+botao_urg.pack(side="left", fill="x", expand=True, padx=2)
+
+botao_pref = ctk.CTkButton(
+    linha_btns, text="PREFERENCIAL", font=("Arial", 13, "bold"),
+    corner_radius=4, height=36, command=lambda: escolher_tipo("PREFERENCIAL")
+)
+botao_pref.pack(side="left", fill="x", expand=True, padx=2)
+
+botao_norm = ctk.CTkButton(
+    linha_btns, text="NORMAL", font=("Arial", 13, "bold"),
+    corner_radius=4, height=36, command=lambda: escolher_tipo("NORMAL")
+)
+botao_norm.pack(side="left", fill="x", expand=True, padx=2)
+
+escolher_tipo("NORMAL")
+
+frame_svc = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
+frame_svc.pack(fill="x", padx=12, pady=4)
+
+ctk.CTkLabel(frame_svc, text="Servico:", font=("Arial", 14), text_color=COR_CINZA).pack(anchor="w")
+
+combo_servico = ctk.CTkComboBox(
+    frame_svc, values=servicos, font=("Arial", 13),
+    fg_color=COR_CARD2, text_color=COR_BRANCO,
+    button_color=COR_BORDA, button_hover_color=COR_AZUL,
+    dropdown_fg_color=COR_CARD2, dropdown_text_color=COR_BRANCO,
+    border_color=COR_BORDA, corner_radius=4, state="readonly"
+)
+combo_servico.set(servicos[0])
+combo_servico.pack(fill="x", pady=4)
+
+ctk.CTkButton(
+    card_emitir, text="GERAR SENHA",
+    font=("Arial", 14, "bold"), fg_color=COR_VERDE,
+    text_color=COR_BRANCO, corner_radius=6, height=38,
+    command=clicou_gerar
+).pack(pady=8)
+
+card_fila = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
+card_fila.grid(row=1, column=0, sticky="nsew", padx=(0, 6), pady=(6, 0))
