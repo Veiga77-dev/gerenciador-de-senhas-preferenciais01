@@ -254,7 +254,7 @@ def cor_do_tipo(tipo):
     if tipo == 'URGENTE':
         return COR_VERMELHO
     elif tipo == 'PREFERENCIAL':
-        return COR_VERDE
+        return COR_AMARELO
     else:
         return COR_AZUL
 
