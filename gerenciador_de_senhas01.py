@@ -544,3 +544,39 @@ ctk.CTkButton(
 
 card_fila = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_fila.grid(row=1, column=0, sticky="nsew", padx=(0, 6), pady=(6, 0))
+
+topo_fila = ctk.CTkFrame(card_fila, fg_color=COR_BORDA, corner_radius=0)
+topo_fila.pack(fill="x")
+
+ctk.CTkLabel(topo_fila, text="Fila de Espera", font=("Arial", 14, "bold"), text_color=COR_BRANCO).pack(side="left", padx=10, pady=6)
+
+label_qtd_fila = ctk.CTkLabel(topo_fila, text="0 pessoas", font=("Arial", 13), text_color=COR_CIANO)
+label_qtd_fila.pack(side="right", padx=10)
+
+area_fila = ctk.CTkScrollableFrame(card_fila, fg_color=COR_CARD, corner_radius=0)
+area_fila.pack(fill="both", expand=True, padx=4, pady=4)
+
+card_hist = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
+card_hist.grid(row=1, column=1, sticky="nsew", padx=(6, 0), pady=(6, 0))
+
+topo_hist = ctk.CTkFrame(card_hist, fg_color=COR_BORDA, corner_radius=0)
+topo_hist.pack(fill="x")
+
+ctk.CTkLabel(topo_hist, text="Historico", font=("Arial", 14, "bold"), text_color=COR_BRANCO).pack(side="left", padx=10, pady=6)
+
+ctk.CTkLabel(topo_hist, text="ultimas 20 senhas", font=("Arial", 12), text_color=COR_CINZA).pack(side="right", padx=10)
+
+cab_hist = ctk.CTkFrame(card_hist, fg_color=COR_CARD2, corner_radius=0)
+cab_hist.pack(fill="x", padx=4, pady=(2, 0))
+
+ctk.CTkLabel(cab_hist, text="Senha",      font=("Arial", 13, "bold"), text_color=COR_CINZA, width=120, anchor="center").pack(side="left", padx=4, pady=4)
+ctk.CTkLabel(cab_hist, text="Nome",       font=("Arial", 13, "bold"), text_color=COR_CINZA, width=110, anchor="center").pack(side="left", padx=4, pady=4)
+ctk.CTkLabel(cab_hist, text="Prioridade", font=("Arial", 13, "bold"), text_color=COR_CINZA, width=120, anchor="center").pack(side="left", padx=4, pady=4)
+ctk.CTkLabel(cab_hist, text="Servico",    font=("Arial", 13, "bold"), text_color=COR_CINZA, anchor="w").pack(side="left", padx=8, pady=4, fill="x", expand=True)
+
+area_historico = ctk.CTkScrollableFrame(card_hist, fg_color=COR_CARD, corner_radius=0)
+area_historico.pack(fill="both", expand=True, padx=4, pady=4)
+
+ctk.CTkLabel(area_historico, text="Nenhuma senha chamada", font=("Consolas", 16), text_color=COR_CINZA).pack(pady=20)
+
+janela_principal.mainloop()
