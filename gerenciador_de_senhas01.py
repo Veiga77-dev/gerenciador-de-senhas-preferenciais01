@@ -28,6 +28,22 @@ COR_BRANCO = "#e6edf3"
 COR_CINZA = "#8b949e"
 COR_BORDA = "#30363d"
 
+PALETA_NORMAL = {
+    "fundo": "#0d1117", "topo": "#161b22", "card": "#21262d",
+    "card2": "#162032", "azul": "#58a6ff", "verde": "#3fb950",
+    "vermelho": "#f85149", "amarelo": "#d29922", "ciano": "#79c0ff",
+    "branco": "#e6edf3", "cinza": "#8b949e", "borda": "#30363d"
+}
+
+PALETA_DALTONICO = {
+    "fundo": "#0d1117", "topo": "#161b22", "card": "#21262d",
+    "card2": "#162032", "azul": "#1a78c2", "verde": "#e69f00",
+    "vermelho": "#e69f00", "amarelo": "#f0e442", "ciano": "#56b4e9",
+    "branco": "#e6edf3", "cinza": "#8b949e", "borda": "#30363d"
+}
+
+modo_daltonico = False
+
 servicos = [
     "Atendimento Geral",
     "Caixa / Pagamentos"
@@ -250,6 +266,53 @@ def chamar_proximo():
     
     return proximo
 
+def aplicar_paleta(paleta):
+    global COR_FUNDO, COR_TOPO, COR_CARD, COR_CARD2, COR_AZUL
+    global COR_VERDE, COR_VERMELHO, COR_AMARELO, COR_CIANO
+    global COR_BRANCO, COR_CINZA, COR_BORDA
+
+    COR_FUNDO = paleta["fundo"]
+    COR_TOPO = paleta["topo"]
+    COR_CARD = paleta["card"]
+    COR_CARD2 = paleta["card2"]
+    COR_AZUL = paleta["azul"]
+    COR_VERDE = paleta["verde"]
+    COR_VERMELHO = paleta["vermelho"]
+    COR_AMARELO = paleta["amarelo"]
+    COR_CIANO = paleta["ciano"]
+    COR_BRANCO = paleta["branco"]
+    COR_CINZA = paleta["cinza"]
+    COR_BORDA = paleta["borda"]
+
+def alternar_daltonico():
+    global modo_daltonico
+    modo_daltonico = not modo_daltonico
+
+    if modo_daltonico:
+        aplicar_paleta(PALETA_DALTONICO)
+        botao_daltonico.configure(text="MODO NORMAL", font=("Arial", 13, "bold"))
+    else:
+        aplicar_paleta(PALETA_NORMAL)
+        botao_daltonico.configure(text="DALTONICO", font=("Arial", 13, "bold"))
+
+    label_senha_atual.configure(text_color=COR_CIANO)
+    label_servico_func.configure(text_color=COR_CINZA)
+    botao_chamar.configure(fg_color=COR_AZUL, text_color=COR_BRANCO)
+
+    campo_nome.configure(fg_color=COR_CARD2, text_color=COR_BRANCO,
+                         border_color=COR_BORDA, placeholder_text_color=COR_CINZA)
+    combo_servico.configure(fg_color=COR_CARD2, text_color=COR_BRANCO,
+                            button_color=COR_BORDA, button_hover_color=COR_AZUL,
+                            dropdown_fg_color=COR_CARD2, dropdown_text_color=COR_BRANCO,
+                            border_color=COR_BORDA)
+    botao_gerar.configure(fg_color=COR_VERDE, text_color=COR_BRANCO)
+
+    escolher_tipo(tipo_escolhido)
+    atualizar_fila_na_tela()
+    atualizar_historico()
+    if senha_atual:
+        mostrar_senha_chamada(senha_atual)    
+
 def cor_do_tipo(tipo):
     if tipo == 'URGENTE':
         return COR_VERMELHO
@@ -277,16 +340,16 @@ def simbolo_do_tipo(tipo):
 label_senha_atual = None
 label_tipo_func = None
 label_servico_func = None
-label_qtd_fila     = None
-area_fila          = None
-area_historico     = None
-campo_nome         = None
-combo_servico      = None
-botao_pref         = None
-botao_urg          = None
-botao_norm         = None
-num_na_fila        = None
-num_chamados       = None
+label_qtd_fila  = None
+area_fila = None
+area_historico = None
+campo_nome = None
+combo_servico = None
+botao_pref = None
+botao_urg = None
+botao_norm = None
+num_na_fila = None
+num_chamados = None
 
 janela_principal   = None
 
@@ -305,7 +368,6 @@ def escolher_tipo(tipo):
     else:
         botao_norm.configure(fg_color=COR_AZUL, hover_color=COR_AZUL, text_color=COR_BRANCO)
 
-
 def clicou_gerar():
     nome = tirar_espacos_pontas(campo_nome.get())
 
@@ -320,7 +382,6 @@ def clicou_gerar():
     atualizar_contadores()
     campo_nome.delete(0, "end")
 
-
 def clicou_chamar():
     resultado = chamar_proximo()
 
@@ -333,15 +394,13 @@ def clicou_chamar():
     atualizar_contadores()
     atualizar_historico()
 
-
 def mostrar_senha_chamada(senha):
-    cor     = cor_do_tipo(senha["tipo"])
+    cor = cor_do_tipo(senha["tipo"])
     simbolo = simbolo_do_tipo(senha["tipo"])
 
     label_senha_atual.configure(text=senha["codigo"], text_color=cor)
     label_tipo_func.configure(text=simbolo + "  " + senha["tipo"], text_color=cor)
     label_servico_func.configure(text=senha["servico"], text_color=COR_CINZA)
-
 
 def atualizar_contadores():
     num_na_fila.configure(text="Fila: " + str(len(fila_de_espera)))
@@ -398,7 +457,6 @@ def atualizar_fila_na_tela():
         ctk.CTkLabel(linha, text=senha["nome"], font=("Consolas", 19),
                      text_color=COR_CINZA).pack(side="right", padx=8)
   
-
 def atualizar_historico():
     for widget in area_historico.winfo_children():
         widget.destroy()
@@ -408,8 +466,8 @@ def atualizar_historico():
         return
 
     for i in range(len(historico)):
-        senha   = historico[i]
-        cor     = cor_do_tipo(senha["tipo"])
+        senha = historico[i]
+        cor = cor_do_tipo(senha["tipo"])
         simbolo = simbolo_do_tipo(senha["tipo"])
 
         if par_ou_impar(i) == 0:
@@ -429,7 +487,6 @@ def atualizar_historico():
         ctk.CTkLabel(linha, text=senha["servico"],
                      font=("Consolas", 17), text_color=COR_CINZA, anchor="w").pack(side="left", padx=8, pady=5, fill="x", expand=True)
         
-
 janela_principal = ctk.CTk()
 janela_principal.title("Gerenciador de Senhas")
 janela_principal.geometry("1100x750")
@@ -445,6 +502,15 @@ num_na_fila.pack(side="right", padx=8, pady=10)
 
 num_chamados = ctk.CTkLabel(cabecalho, text="Chamados: 0", font=("Arial", 14), text_color=COR_CINZA)
 num_chamados.pack(side="right", padx=8, pady=10)
+
+botao_daltonico = ctk.CTkButton(
+    cabecalho, text="DALTONICO",
+    font=("Arial", 13, "bold"), fg_color=COR_BORDA,
+    text_color=COR_BRANCO, corner_radius=6,
+    height=30, width=120,
+    command=alternar_daltonico
+)
+botao_daltonico.pack(side="right", padx=8, pady=8)
 
 corpo = ctk.CTkFrame(janela_principal, fg_color=COR_FUNDO, corner_radius=0)
 corpo.pack(fill="both", expand=True, padx=12, pady=(0, 10))
