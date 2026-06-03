@@ -21,8 +21,8 @@ COR_CARD = "#21262d"
 COR_CARD2 = "#162032"
 COR_AZUL = "#58a6ff"
 COR_VERDE = "#3fb950"
-COR_AMARELO = "#d29922"
 COR_VERMELHO = "#f85149"
+COR_AMARELO = "#d29922"
 COR_CIANO = "#79c0ff"
 COR_BRANCO = "#e6edf3"
 COR_CINZA = "#8b949e"
@@ -36,9 +36,9 @@ servicos = [
 tipos = ["NORMAL", "PREFERENCIAL", "URGENTE"]
 
 matriz_atendimentos = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
+    [0, 0],
+    [0, 0],
+    [0, 0]
 ]
 
 def achar_linha_do_tipo(tipo):
@@ -57,11 +57,11 @@ def achar_coluna_do_servico(servico):
 
 def somar_linha(numero_da_linha):
     total = 0
-    for j in range(len(tipos)):
+    for j in range(len(servicos)):
         total += matriz_atendimentos[numero_da_linha][j]
     return total
 
-def soma_coluna(numero_da_coluna):
+def somar_coluna(numero_da_coluna):
     total = 0
     for i in range(len(tipos)):
         total += matriz_atendimentos[i][numero_da_coluna]
@@ -269,7 +269,7 @@ def fundo_do_tipo(tipo):
 def simbolo_do_tipo(tipo):
     if tipo == "URGENTE":
         return " "
-    elif tipo == "PREFENCIAL":
+    elif tipo == "PREFERENCIAL":
         return " "
     else: 
         return " "
@@ -390,10 +390,10 @@ def atualizar_fila_na_tela():
                      side="left", padx=4, pady=4, ipadx=6, ipady=2)
         
         ctk.CTkLabel(linha, text=senha["codigo"], font=("Consolas", 24, "bold"),
-                     text_color=cor, width=110).pack(side="lefft", padx=6)
+                     text_color=cor, width=110).pack(side="left", padx=6)
         
-        ctk.CTkLabel(linha, text=senha["servico"], font=("Consolas", 19),
-                     text_color=COR_CINZA).pack(side="right", padx=8)
+        ctk.CTkLabel(linha, text=senha["servico"],font=("Consolas", 19),
+             text_color=COR_CINZA, anchor="w").pack(side="left", fill="x", expand=True)
     
         ctk.CTkLabel(linha, text=senha["nome"], font=("Consolas", 19),
                      text_color=COR_CINZA).pack(side="right", padx=8)
