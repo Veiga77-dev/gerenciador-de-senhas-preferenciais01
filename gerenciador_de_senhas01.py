@@ -132,7 +132,7 @@ def tirar_espacos_pontas(texto):
     return resultado
 
 def pegar_primeiros(texto, quantidade):
-    resultado = " "
+    resultado = ""
     for i in range(quantidade):
         if i < len(texto):
             resultado += texto[i]
@@ -488,14 +488,15 @@ def atualizar_historico():
                      font=("Consolas", 17), text_color=COR_CINZA, anchor="w").pack(side="left", padx=8, pady=5, fill="x", expand=True)
         
 janela_principal = ctk.CTk()
-janela_principal.title("Gerenciador de Senhas")
+janela_principal.title("")
 janela_principal.geometry("1100x750")
 janela_principal.configure(fg_color=COR_FUNDO)
 
 cabecalho = ctk.CTkFrame(janela_principal, fg_color=COR_TOPO, corner_radius=0)
 cabecalho.pack(fill="x", pady=(0, 10))
 
-ctk.CTkLabel(cabecalho, text="SISTEMA DE SENHAS", font=("Arial", 20, "bold"), text_color=COR_BRANCO).pack(side="left", padx=16, pady=10)
+label_titulo = ctk.CTkLabel(cabecalho, text="SISTEMA DE SENHAS", font=("Arial", 20, "bold"), text_color=COR_BRANCO)
+label_titulo.pack(side="left", padx=16, pady=10)
 
 num_na_fila = ctk.CTkLabel(cabecalho, text="Fila: 0", font=("Arial", 14), text_color=COR_CINZA)
 num_na_fila.pack(side="right", padx=8, pady=10)
@@ -522,7 +523,8 @@ corpo.rowconfigure(1, weight=1)
 card_senha = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_senha.grid(row=0, column=0, sticky="nsew", padx=(0, 6), pady=(0, 6))
 
-ctk.CTkLabel(card_senha, text="Senha Atual", font=("Arial", 14, "bold"), text_color=COR_CINZA).pack(pady=(10, 0))
+label_titulo_senha = ctk.CTkLabel(card_senha, text="Senha Atual", font=("Arial", 14, "bold"), text_color=COR_CINZA)
+label_titulo_senha.pack(pady=(10, 0))
 
 label_senha_atual = ctk.CTkLabel(card_senha, text="---", font=("Arial", 72, "bold"), text_color=COR_CIANO)
 label_senha_atual.pack()
@@ -533,22 +535,25 @@ label_tipo_func.pack()
 label_servico_func = ctk.CTkLabel(card_senha, text="", font=("Arial", 14), text_color=COR_CINZA)
 label_servico_func.pack(pady=(0, 6))
 
-ctk.CTkButton(
+botao_chamar = ctk.CTkButton(
     card_senha, text="CHAMAR PROXIMA SENHA",
     font=("Arial", 14, "bold"), fg_color=COR_AZUL,
     text_color=COR_BRANCO, corner_radius=6, height=38,
     command=clicou_chamar
-).pack(pady=(0, 10))
+)
+botao_chamar.pack(pady=(0, 10))
 
 card_emitir = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_emitir.grid(row=0, column=1, sticky="nsew", padx=(6, 0), pady=(0, 6))
 
-ctk.CTkLabel(card_emitir, text="Emitir Nova Senha", font=("Arial", 14, "bold"), text_color=COR_CINZA).pack(pady=(10, 4))
+label_titulo_emitir = ctk.CTkLabel(card_emitir, text="Emitir Nova Senha", font=("Arial", 14, "bold"), text_color=COR_CINZA)
+label_titulo_emitir.pack(pady=(10, 4))
 
 frame_nome = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
 frame_nome.pack(fill="x", padx=12, pady=2)
 
-ctk.CTkLabel(frame_nome, text="Nome:", font=("Arial", 14), text_color=COR_CINZA).pack(anchor="w")
+label_nome = ctk.CTkLabel(frame_nome, text="Nome:", font=("Arial", 14), text_color=COR_CINZA)
+label_nome.pack(anchor="w")
 
 campo_nome = ctk.CTkEntry(
     frame_nome, font=("Arial", 14),
@@ -561,7 +566,8 @@ campo_nome.pack(fill="x", pady=4)
 frame_prio = ctk.CTkFrame(card_emitir, fg_color=COR_CARD, corner_radius=0)
 frame_prio.pack(fill="x", padx=12, pady=4)
 
-ctk.CTkLabel(frame_prio, text="Prioridade:", font=("Arial", 14), text_color=COR_CINZA).pack(anchor="w")
+label_prio = ctk.CTkLabel(frame_prio, text="Prioridade:", font=("Arial", 14), text_color=COR_CINZA)
+label_prio.pack(anchor="w")
 
 linha_btns = ctk.CTkFrame(frame_prio, fg_color=COR_CARD, corner_radius=0)
 linha_btns.pack(fill="x", pady=4)
@@ -601,12 +607,13 @@ combo_servico = ctk.CTkComboBox(
 combo_servico.set(servicos[0])
 combo_servico.pack(fill="x", pady=4)
 
-ctk.CTkButton(
+botao_gerar = ctk.CTkButton(
     card_emitir, text="GERAR SENHA",
     font=("Arial", 14, "bold"), fg_color=COR_VERDE,
     text_color=COR_BRANCO, corner_radius=6, height=38,
     command=clicou_gerar
-).pack(pady=8)
+)
+botao_gerar.pack(pady=8)
 
 card_fila = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_fila.grid(row=1, column=0, sticky="nsew", padx=(0, 6), pady=(6, 0))
@@ -614,7 +621,8 @@ card_fila.grid(row=1, column=0, sticky="nsew", padx=(0, 6), pady=(6, 0))
 topo_fila = ctk.CTkFrame(card_fila, fg_color=COR_BORDA, corner_radius=0)
 topo_fila.pack(fill="x")
 
-ctk.CTkLabel(topo_fila, text="Fila de Espera", font=("Arial", 14, "bold"), text_color=COR_BRANCO).pack(side="left", padx=10, pady=6)
+label_titulo_fila = ctk.CTkLabel(topo_fila, text="Fila de Espera", font=("Arial", 14, "bold"), text_color=COR_BRANCO)
+label_titulo_fila.pack(side="left", padx=10, pady=6)
 
 label_qtd_fila = ctk.CTkLabel(topo_fila, text="0 pessoas", font=("Arial", 13), text_color=COR_CIANO)
 label_qtd_fila.pack(side="right", padx=10)
@@ -628,9 +636,11 @@ card_hist.grid(row=1, column=1, sticky="nsew", padx=(6, 0), pady=(6, 0))
 topo_hist = ctk.CTkFrame(card_hist, fg_color=COR_BORDA, corner_radius=0)
 topo_hist.pack(fill="x")
 
-ctk.CTkLabel(topo_hist, text="Historico", font=("Arial", 14, "bold"), text_color=COR_BRANCO).pack(side="left", padx=10, pady=6)
+label_titulo_hist = ctk.CTkLabel(topo_hist, text="Historico", font=("Arial", 14, "bold"), text_color=COR_BRANCO)
+label_titulo_hist.pack(side="left", padx=10, pady=6)
 
-ctk.CTkLabel(topo_hist, text="ultimas 20 senhas", font=("Arial", 12), text_color=COR_CINZA).pack(side="right", padx=10)
+label_subtitulo_hist = ctk.CTkLabel(topo_hist, text="ultimas 20 senhas", font=("Arial", 12), text_color=COR_CINZA)
+label_subtitulo_hist.pack(side="right", padx=10)
 
 cab_hist = ctk.CTkFrame(card_hist, fg_color=COR_CARD2, corner_radius=0)
 cab_hist.pack(fill="x", padx=4, pady=(2, 0))
