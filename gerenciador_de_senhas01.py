@@ -293,7 +293,7 @@ def alternar_daltonico():
         botao_daltonico.configure(text="MODO NORMAL", font=("Arial", 13, "bold"))
     else:
         aplicar_paleta(PALETA_NORMAL)
-        botao_daltonico.configure(text=" MODO DALTONICO", font=("Arial", 13, "bold"))
+        botao_daltonico.configure(text="MODO DALTONICO", font=("Arial", 13, "bold"))
 
     label_senha_atual.configure(text_color=COR_CIANO)
     label_servico_func.configure(text_color=COR_CINZA)
