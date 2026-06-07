@@ -289,11 +289,11 @@ def alternar_daltonico():
     modo_daltonico = not modo_daltonico
 
     if modo_daltonico:
-        aplicar_paleta(PALETA_DALTONICO)
+        aplicar_paleta(PALETA_NORMAL)
         botao_daltonico.configure(text="MODO NORMAL", font=("Arial", 13, "bold"))
     else:
-        aplicar_paleta(PALETA_NORMAL)
-        botao_daltonico.configure(text="DALTONICO", font=("Arial", 13, "bold"))
+        aplicar_paleta(PALETA_DALTONICO)
+        botao_daltonico.configure(text=" MODO DALTONICO", font=("Arial", 13, "bold"))
 
     label_senha_atual.configure(text_color=COR_CIANO)
     label_servico_func.configure(text_color=COR_CINZA)
@@ -505,7 +505,7 @@ num_chamados = ctk.CTkLabel(cabecalho, text="Chamados: 0", font=("Arial", 14), t
 num_chamados.pack(side="right", padx=8, pady=10)
 
 botao_daltonico = ctk.CTkButton(
-    cabecalho, text="DALTONICO",
+    cabecalho, text="MODO DALTONICO",
     font=("Arial", 13, "bold"), fg_color=COR_BORDA,
     text_color=COR_BRANCO, corner_radius=6,
     height=30, width=120,
