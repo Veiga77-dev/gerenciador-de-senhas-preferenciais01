@@ -1,20 +1,25 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
+# Configura o tema escuro da interface
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+# Fila principal de espera e histórico dos últimos atendimentos
 fila_de_espera = []
 historico = []
 senha_atual = None
 total_chamados = 0
 
+# Contadores separados por tipo de senha
 cont_preferencial = 0
 cont_urgente = 0
 cont_normal = 0
 
+# Tipo de prioridade selecionado no momento
 tipo_escolhido = "NORMAL"
 
+# Cores padrão da interface (tema escuro)
 COR_FUNDO = "#0d1117"
 COR_TOPO = "#161b22"
 COR_CARD = "#21262d"
@@ -28,6 +33,7 @@ COR_BRANCO = "#e6edf3"
 COR_CINZA = "#8b949e"
 COR_BORDA = "#30363d"
 
+# Paleta padrão (modo normal)
 PALETA_NORMAL = {
     "fundo": "#0d1117", "topo": "#161b22", "card": "#21262d",
     "card2": "#162032", "azul": "#58a6ff", "verde": "#3fb950",
@@ -35,6 +41,7 @@ PALETA_NORMAL = {
     "branco": "#e6edf3", "cinza": "#8b949e", "borda": "#30363d"
 }
 
+# Paleta daltônica baseada na paleta Wong — distinguível para os tipos mais comuns de daltonismo
 PALETA_DALTONICO = {
     "fundo": "#0d1117", "topo": "#161b22", "card": "#21262d",
     "card2": "#162032", "azul": "#1a78c2", "verde": "#e69f00",
@@ -42,21 +49,27 @@ PALETA_DALTONICO = {
     "branco": "#e6edf3", "cinza": "#8b949e", "borda": "#30363d"
 }
 
+# Controla se o modo daltônico está ativo
 modo_daltonico = False
 
+# Serviços disponíveis para atendimento
 servicos = [
     "Atendimento Geral",
     "Caixa / Pagamentos"
 ]
 
+# Tipos de prioridade possíveis
 tipos = ["NORMAL", "PREFERENCIAL", "URGENTE"]
 
+# Matriz que registra quantos atendimentos ocorreram por tipo e serviço
+# Linhas: NORMAL, PREFERENCIAL, URGENTE | Colunas: Atendimento Geral, Caixa
 matriz_atendimentos = [
     [0, 0],
     [0, 0],
     [0, 0]
 ]
 
+# Retorna o índice do tipo na lista de tipos
 def achar_linha_do_tipo(tipo):
     linha_encontrada = 0
     for i in range(len(tipos)):
@@ -64,6 +77,7 @@ def achar_linha_do_tipo(tipo):
             linha_encontrada = i
     return linha_encontrada
 
+# Retorna o índice do serviço na lista de serviços
 def achar_coluna_do_servico(servico):
     coluna_encontrada = 0
     for j in range(len(servicos)):
@@ -71,23 +85,27 @@ def achar_coluna_do_servico(servico):
             coluna_encontrada = j 
     return coluna_encontrada
 
+# Soma todos os atendimentos de uma linha (tipo) da matriz
 def somar_linha(numero_da_linha):
     total = 0
     for j in range(len(servicos)):
         total += matriz_atendimentos[numero_da_linha][j]
     return total
 
+# Soma todos os atendimentos de uma coluna (serviço) da matriz
 def somar_coluna(numero_da_coluna):
     total = 0
     for i in range(len(tipos)):
         total += matriz_atendimentos[i][numero_da_coluna]
     return total
 
+# Incrementa o contador da célula correspondente ao tipo e serviço
 def registrar_na_matriz(tipo, servico):
     linha = achar_linha_do_tipo(tipo)
     coluna = achar_coluna_do_servico(servico)
     matriz_atendimentos[linha][coluna] += 1
 
+# Converte todas as letras maiúsculas de um texto para minúsculas
 def minusculas(texto):
     letras_maiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     letras_minusculas = "abcdefghijklmnopqrstuvwxyz"
@@ -102,7 +120,8 @@ def minusculas(texto):
         if achou == False:
             resultado += letra
     return resultado
-           
+
+# Remove todos os espaços de um texto           
 def tirar_espacos(texto):
     resultado = ""
     for letra in texto:
@@ -110,6 +129,7 @@ def tirar_espacos(texto):
             resultado += letra
     return resultado
 
+# Remove os espaços do início e do fim de um texto
 def tirar_espacos_pontas(texto):
     inicio = 0
     fim = len(texto) - 1
@@ -131,6 +151,7 @@ def tirar_espacos_pontas(texto):
         resultado += texto[i]
     return resultado
 
+# Retorna os primeiros N caracteres de um texto
 def pegar_primeiros(texto, quantidade):
     resultado = ""
     for i in range(quantidade):
@@ -138,6 +159,7 @@ def pegar_primeiros(texto, quantidade):
             resultado += texto[i]
     return resultado
 
+# Insere um item em uma posição específica de uma lista
 def inserir_na_lista(lista, posicao, item):
     nova_lista = []
     for i in range(len(lista)):
@@ -148,6 +170,7 @@ def inserir_na_lista(lista, posicao, item):
         nova_lista.append(item)
     return nova_lista
 
+# Remove o primeiro elemento de uma lista
 def remover_primeiro(lista):
     nova_lista = []
     for i in range(len(lista)):
@@ -155,21 +178,22 @@ def remover_primeiro(lista):
             nova_lista.append(lista[i])
     return nova_lista
 
+# Remove o último elemento de uma lista
 def remover_ultimo(lista):
     nova_lista = []
     for i in range(len(lista)-1):
         nova_lista.append(lista[i])
     return nova_lista
 
+# Verifica se um número é par (retorna 0) ou ímpar (retorna 1)
 def par_ou_impar(numero):
-    n = numero 
-    while n >= 2:
-        n -= 2
-    if n == 0:
+    if numero % 2 == 0:
         return 0
     else:
         return 1
-    
+
+# Gera um código único para a senha no formato: nome(até 8 chars) + número com zeros à esquerda
+# Ex: "joaosilv001" para o primeiro João Silva normal    
 def fazer_codigo(tipo, nome):
     global cont_preferencial, cont_urgente, cont_normal
 
@@ -202,6 +226,8 @@ def fazer_codigo(tipo, nome):
     codigo = nome_limpo + numero_texto
     return codigo
 
+# Cria uma nova senha e insere na fila respeitando a prioridade
+# Urgente entra antes de Preferencial, que entra antes de Normal
 def adicionar_senha(tipo, servico, nome):
     global fila_de_espera
 
@@ -247,6 +273,8 @@ def adicionar_senha(tipo, servico, nome):
     registrar_na_matriz(tipo, servico)
     return nova_senha
 
+# Remove o primeiro da fila e o marca como senha atual
+# Também adiciona ao histórico e limita o histórico a 20 entradas
 def chamar_proximo():
     global fila_de_espera, historico, senha_atual, total_chamados
 
@@ -266,6 +294,7 @@ def chamar_proximo():
     
     return proximo
 
+# Atualiza todas as variáveis de cor globais com os valores da paleta escolhida
 def aplicar_paleta(paleta):
     global COR_FUNDO, COR_TOPO, COR_CARD, COR_CARD2, COR_AZUL
     global COR_VERDE, COR_VERMELHO, COR_AMARELO, COR_CIANO
@@ -284,6 +313,7 @@ def aplicar_paleta(paleta):
     COR_CINZA = paleta["cinza"]
     COR_BORDA = paleta["borda"]
 
+# Alterna entre o modo normal e o modo daltônico, atualizando cores e botões
 def alternar_daltonico():
     global modo_daltonico
     modo_daltonico = not modo_daltonico
@@ -313,6 +343,7 @@ def alternar_daltonico():
     if senha_atual:
         mostrar_senha_chamada(senha_atual)    
 
+# Retorna a cor correspondente ao tipo de prioridade
 def cor_do_tipo(tipo):
     if tipo == 'URGENTE':
         return COR_VERMELHO
@@ -321,6 +352,7 @@ def cor_do_tipo(tipo):
     else:
         return COR_AZUL
 
+# Retorna a cor de fundo do card conforme o tipo de prioridade
 def fundo_do_tipo(tipo):
     if tipo == 'URGENTE':
         return '#2d1117'
@@ -329,6 +361,7 @@ def fundo_do_tipo(tipo):
     else:
         return '#1c2333'
 
+# Retorna o tipo de prioridade
 def simbolo_do_tipo(tipo):
     if tipo == "URGENTE":
         return " "
@@ -337,6 +370,7 @@ def simbolo_do_tipo(tipo):
     else: 
         return " "
 
+# Declaradas como None antes da janela para que as funções acima possam referenciá-las
 label_senha_atual = None
 label_tipo_func = None
 label_servico_func = None
@@ -353,6 +387,7 @@ num_chamados = None
 
 janela_principal   = None
 
+# Destaca visualmente o botão do tipo selecionado e atualiza tipo_escolhido
 def escolher_tipo(tipo):
     global tipo_escolhido
     tipo_escolhido = tipo
@@ -368,6 +403,7 @@ def escolher_tipo(tipo):
     else:
         botao_norm.configure(fg_color=COR_AZUL, hover_color=COR_AZUL, text_color=COR_BRANCO)
 
+# Chamada ao clicar em "Gerar Senha" — valida o nome e adiciona à fila
 def clicou_gerar():
     nome = tirar_espacos_pontas(campo_nome.get())
 
@@ -382,6 +418,7 @@ def clicou_gerar():
     atualizar_contadores()
     campo_nome.delete(0, "end")
 
+# Chamada ao clicar em "Chamar Próxima Senha" — avança a fila
 def clicou_chamar():
     resultado = chamar_proximo()
 
@@ -394,6 +431,7 @@ def clicou_chamar():
     atualizar_contadores()
     atualizar_historico()
 
+# Atualiza o painel central com o código e tipo da senha chamada
 def mostrar_senha_chamada(senha):
     cor = cor_do_tipo(senha["tipo"])
     simbolo = simbolo_do_tipo(senha["tipo"])
@@ -402,10 +440,12 @@ def mostrar_senha_chamada(senha):
     label_tipo_func.configure(text=simbolo + "  " + senha["tipo"], text_color=cor)
     label_servico_func.configure(text=senha["servico"], text_color=COR_CINZA)
 
+# Atualiza os labels de contagem no cabeçalho
 def atualizar_contadores():
     num_na_fila.configure(text="Fila: " + str(len(fila_de_espera)))
     num_chamados.configure(text="Chamados: " + str(total_chamados))
 
+# Reconstrói a lista visual da fila do zero (destrói e recria todos os widgets)
 def atualizar_fila_na_tela():
     for widget in area_fila.winfo_children():
         widget.destroy()
@@ -456,7 +496,8 @@ def atualizar_fila_na_tela():
     
         ctk.CTkLabel(linha, text=senha["nome"], font=("Consolas", 19),
                      text_color=COR_CINZA).pack(side="right", padx=8)
-  
+
+# Reconstrói a lista visual do histórico de atendimentos  
 def atualizar_historico():
     for widget in area_historico.winfo_children():
         widget.destroy()
@@ -486,12 +527,14 @@ def atualizar_historico():
                      font=("Consolas", 17), text_color=cor, width=120, anchor="center").pack(side="left", padx=4, pady=5)
         ctk.CTkLabel(linha, text=senha["servico"],
                      font=("Consolas", 17), text_color=COR_CINZA, anchor="w").pack(side="left", padx=8, pady=5, fill="x", expand=True)
-        
+
+# Janela principal        
 janela_principal = ctk.CTk()
 janela_principal.title("")
 janela_principal.geometry("1100x750")
 janela_principal.configure(fg_color=COR_FUNDO)
 
+# Cabeçalho
 cabecalho = ctk.CTkFrame(janela_principal, fg_color=COR_TOPO, corner_radius=0)
 cabecalho.pack(fill="x", pady=(0, 10))
 
@@ -513,6 +556,7 @@ botao_daltonico = ctk.CTkButton(
 )
 botao_daltonico.pack(side="right", padx=8, pady=8)
 
+# Corpo principal em grid 2x2
 corpo = ctk.CTkFrame(janela_principal, fg_color=COR_FUNDO, corner_radius=0)
 corpo.pack(fill="both", expand=True, padx=12, pady=(0, 10))
 corpo.columnconfigure(0, weight=1)
@@ -520,6 +564,7 @@ corpo.columnconfigure(1, weight=1)
 corpo.rowconfigure(0, weight=1)
 corpo.rowconfigure(1, weight=1)
 
+# Card: Senha Atual (canto superior esquerdo)
 card_senha = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_senha.grid(row=0, column=0, sticky="nsew", padx=(0, 6), pady=(0, 6))
 
@@ -543,6 +588,7 @@ botao_chamar = ctk.CTkButton(
 )
 botao_chamar.pack(pady=(0, 10))
 
+# Card: Emitir Nova Senha (canto superior direito)
 card_emitir = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_emitir.grid(row=0, column=1, sticky="nsew", padx=(6, 0), pady=(0, 6))
 
@@ -615,6 +661,7 @@ botao_gerar = ctk.CTkButton(
 )
 botao_gerar.pack(pady=8)
 
+# Card: Fila de Espera (canto inferior esquerdo)
 card_fila = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_fila.grid(row=1, column=0, sticky="nsew", padx=(0, 6), pady=(6, 0))
 
@@ -630,6 +677,7 @@ label_qtd_fila.pack(side="right", padx=10)
 area_fila = ctk.CTkScrollableFrame(card_fila, fg_color=COR_CARD, corner_radius=0)
 area_fila.pack(fill="both", expand=True, padx=4, pady=4)
 
+# Card: Histórico (canto inferior direito)
 card_hist = ctk.CTkFrame(corpo, fg_color=COR_CARD, corner_radius=8)
 card_hist.grid(row=1, column=1, sticky="nsew", padx=(6, 0), pady=(6, 0))
 
@@ -655,4 +703,5 @@ area_historico.pack(fill="both", expand=True, padx=4, pady=4)
 
 ctk.CTkLabel(area_historico, text="Nenhuma senha chamada", font=("Consolas", 16), text_color=COR_CINZA).pack(pady=20)
 
+# Inicia o loop da interface — mantém a janela aberta
 janela_principal.mainloop()
