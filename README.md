@@ -73,6 +73,7 @@ Essa abordagem permitiu compreender melhor como essas operações são realizada
 # Como executar
 1. Instale a dependência:
 - install customtkinter
+
 2 - Execute o arquivo:
 - python gerenciador_de_senhas.py
 
